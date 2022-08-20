@@ -3,9 +3,9 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-university"></i>
+            <i class="fa fa-money"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Tech-Admin</div>
+        <div class="sidebar-brand-text mx-3">Мой Офис</div>
     </a>
 
     <!-- Divider -->
@@ -14,8 +14,8 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('home') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <i class="fa fa-home"></i>
+            <span>Главная</span></a>
     </li>
 
     <!-- Divider -->
@@ -23,22 +23,22 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Management
+        Общее
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDown"
-            aria-expanded="true" aria-controls="taTpDropDown">
-            <i class="fas fa-user-alt"></i>
-            <span>User Management</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDownParticipant"
+            aria-expanded="true" aria-controls="taTpDropDownParticipant">
+            <i class="fa fa-users"></i>
+            <span>Сотрудники</span>
         </a>
-        <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="taTpDropDownParticipant" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">User Management:</h6>
-                <a class="collapse-item" href="{{ route('users.index') }}">List</a>
-                <a class="collapse-item" href="{{ route('users.create') }}">Add New</a>
-                <a class="collapse-item" href="{{ route('users.import') }}">Import Data</a>
+                <a class="collapse-item" href="{{ route('users.index') }}">Все сотрудники</a>
+                @hasrole('Admin')
+                <a class="collapse-item" href="{{ route('users.create') }}">Добавить сотрудника</a>
+                @endhasrole
             </div>
         </div>
     </li>
@@ -46,36 +46,61 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    @hasrole('Admin')
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Admin Section
-        </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>Masters</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Role & Permissions</h6>
-                    <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
-                    <a class="collapse-item" href="{{ route('permissions.index') }}">Permissions</a>
-                </div>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Лиды
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDownLeads"
+           aria-expanded="true" aria-controls="taTpDropDownLeads">
+            <i class="fas fa-user-alt"></i>
+            <span>Управление лидами</span>
+        </a>
+        <div id="taTpDropDownLeads" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                @hasrole('Admin')
+                    <a class="collapse-item" href="{{ route('users.import') }}">Импортировать лиды</a>
+                @endhasrole
             </div>
-        </li>
+        </div>
+    </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+
+    @hasrole('Admin')
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Настройки
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+           aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Управление</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('roles.index') }}">Роли</a>
+                <a class="collapse-item" href="{{ route('permissions.index') }}">Доступы</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
     @endhasrole
 
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
+            <span>Выйти</span>
         </a>
     </li>
     <!-- Sidebar Toggler (Sidebar) -->
