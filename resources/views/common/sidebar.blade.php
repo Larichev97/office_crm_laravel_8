@@ -35,10 +35,13 @@
         </a>
         <div id="taTpDropDownParticipant" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                @can('user-list')
                 <a class="collapse-item" href="{{ route('users.index') }}">Все сотрудники</a>
-                @hasrole('Admin')
-                <a class="collapse-item" href="{{ route('users.create') }}">Добавить сотрудника</a>
-                @endhasrole
+                @endcan
+
+                @can('user-create')
+                    <a class="collapse-item" href="{{ route('users.create') }}">Добавить сотрудника</a>
+                @endcan
             </div>
         </div>
     </li>

@@ -29,7 +29,7 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::paginate(10);
+        $permissions = Permission::paginate(50);
 
         return view('permissions.index', [
             'permissions' => $permissions
@@ -60,7 +60,7 @@ class PermissionsController extends Controller
                 'name' => 'required',
                 'guard_name' => 'required'
             ]);
-    
+
             Permission::create($request->all());
 
             DB::commit();
@@ -69,7 +69,7 @@ class PermissionsController extends Controller
             DB::rollback();
             return redirect()->route('permissions.add')->with('error',$th->getMessage());
         }
-        
+
     }
 
     /**
@@ -111,14 +111,14 @@ class PermissionsController extends Controller
                 'name' => 'required',
                 'guard_name' => 'required'
             ]);
-            
+
             $permission = Permission::whereId($id)->first();
 
             $permission->name = $request->name;
             $permission->guard_name = $request->guard_name;
             $permission->save();
-            
-            
+
+
             DB::commit();
             return redirect()->route('permissions.index')->with('success','Permissions updated successfully.');
         } catch (\Throwable $th) {
@@ -137,9 +137,9 @@ class PermissionsController extends Controller
     {
         DB::beginTransaction();
         try {
-    
+
             Permission::whereId($id)->delete();
-            
+
             DB::commit();
             return redirect()->route('permissions.index')->with('success','Permissions deleted successfully.');
         } catch (\Throwable $th) {

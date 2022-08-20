@@ -23,7 +23,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index']]);
+        $this->middleware('permission:user-list', ['only' => ['index']]);
         $this->middleware('permission:user-create', ['only' => ['create','store', 'updateStatus']]);
         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:user-delete', ['only' => ['delete']]);
@@ -31,35 +31,33 @@ class UserController extends Controller
 
 
     /**
-     * List User 
-     * @param Nill
-     * @return Array $user
-     * @author Shani Singh
+     *  List User
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
         $users = User::with('roles')->paginate(10);
         return view('users.index', ['users' => $users]);
     }
-    
+
     /**
-     * Create User 
-     * @param Nill
-     * @return Array $user
-     * @author Shani Singh
+     *  Create User
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
         $roles = Role::all();
-       
+
         return view('users.add', ['roles' => $roles]);
     }
 
     /**
-     * Store User
+     *  Store User
+     *
      * @param Request $request
-     * @return View Users
-     * @author Shani Singh
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -68,7 +66,7 @@ class UserController extends Controller
             'first_name'    => 'required',
             'last_name'     => 'required',
             'email'         => 'required|unique:users,email',
-            'mobile_number' => 'required|numeric|digits:10',
+            'mobile_number' => 'required|numeric|digits:13',
             'role_id'       =>  'required|exists:roles,id',
             'status'       =>  'required|numeric|in:0,1',
         ]);
@@ -89,7 +87,7 @@ class UserController extends Controller
 
             // Delete Any Existing Role
             DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
+
             // Assign Role To User
             $user->assignRole($user->role_id);
 
@@ -105,10 +103,11 @@ class UserController extends Controller
     }
 
     /**
-     * Update Status Of User
-     * @param Integer $status
-     * @return List Page With Success
-     * @author Shani Singh
+     *  Update Status Of User
+     *
+     * @param $user_id
+     * @param $status
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updateStatus($user_id, $status)
     {
@@ -144,10 +143,10 @@ class UserController extends Controller
     }
 
     /**
-     * Edit User
-     * @param Integer $user
-     * @return Collection $user
-     * @author Shani Singh
+     *  Edit User
+     *
+     * @param User $user
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(User $user)
     {
@@ -159,10 +158,11 @@ class UserController extends Controller
     }
 
     /**
-     * Update User
-     * @param Request $request, User $user
-     * @return View Users
-     * @author Shani Singh
+     *  Update User
+     *
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, User $user)
     {
@@ -171,7 +171,7 @@ class UserController extends Controller
             'first_name'    => 'required',
             'last_name'     => 'required',
             'email'         => 'required|unique:users,email,'.$user->id.',id',
-            'mobile_number' => 'required|numeric|digits:10',
+            'mobile_number' => 'required|numeric|digits:13',
             'role_id'       =>  'required|exists:roles,id',
             'status'       =>  'required|numeric|in:0,1',
         ]);
@@ -191,7 +191,7 @@ class UserController extends Controller
 
             // Delete Any Existing Role
             DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
+
             // Assign Role To User
             $user->assignRole($user->role_id);
 
@@ -207,10 +207,10 @@ class UserController extends Controller
     }
 
     /**
-     * Delete User
+     *  Delete User
+     *
      * @param User $user
-     * @return Index Users
-     * @author Shani Singh
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(User $user)
     {
@@ -229,23 +229,30 @@ class UserController extends Controller
     }
 
     /**
-     * Import Users 
-     * @param Null
-     * @return View File
+     *  Import Users
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function importUsers()
     {
         return view('users.import');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function uploadUsers(Request $request)
     {
         Excel::import(new UsersImport, $request->file);
-        
+
         return redirect()->route('users.index')->with('success', 'User Imported Successfully');
     }
 
-    public function export() 
+    /**
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export()
     {
         return Excel::download(new UsersExport, 'users.xlsx');
     }

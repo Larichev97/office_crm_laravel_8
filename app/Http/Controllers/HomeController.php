@@ -28,12 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$user = User::findOrFail(auth()->user()->id);
-
         return view('home');
-//        return view('home')->with([
-//            'user'  => $user
-//        ]);
     }
 
     /**
@@ -59,7 +54,7 @@ class HomeController extends Controller
         $request->validate([
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'mobile_number' => 'required|numeric|digits:10',
+            'mobile_number' => 'required|numeric|digits:13',
         ]);
 
         try {
