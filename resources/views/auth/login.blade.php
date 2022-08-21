@@ -1,6 +1,6 @@
 @extends('auth.layouts.app')
 
-@section('title', 'Login')
+@section('title', 'Вход')
 
 @section('content')
 <div class="row justify-content-center">
@@ -18,7 +18,7 @@
                     <div class="col-lg-6">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">С возвращением!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Добро пожаловать!</h1>
                             </div>
 
                             @if (session('error'))
@@ -68,7 +68,7 @@
     </div>
 
     <div class="text-center mt-5">
-        <h6 class="text-white">Разработано : <a class="text-white" href="https://techtoolindia.com">Denys Larichev</a></h6>
+        <h6 class="text-white">Разработано : <a class="text-white" href="https://techtoolindia.com">D. Larichev</a></h6>
     </div>
 
 </div>

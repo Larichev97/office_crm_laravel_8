@@ -36,7 +36,7 @@
                                 <th width="20%">ФИО</th>
                                 <th width="25%">Почта</th>
                                 <th width="15%">Мобильный номер</th>
-                                <th width="15%">Роль</th>
+                                <th width="15%">Должность</th>
                                 <th width="15%">Статус</th>
                                 <th width="10%">Действие</th>
                             </tr>
@@ -47,7 +47,7 @@
                                     <td>{{ $user->full_name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->mobile_number }}</td>
-                                    <td>{{ $user->roles ? $user->roles->pluck('name')->first() : 'Без роли' }}</td>
+                                    <td>{{ $user->roles ? $user->roles->pluck('label')->first() : 'Без должности' }}</td>
                                     <td>
                                         @if ($user->status == 0)
                                             <span class="badge badge-danger">Отключен</span>

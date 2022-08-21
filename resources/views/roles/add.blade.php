@@ -19,20 +19,20 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Добавить новую роль</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Новая роль (должность)</h6>
         </div>
         <div class="card-body">
             <form method="POST" action="{{route('roles.store')}}">
                 @csrf
-                <div class="form-group row">
 
-                    {{-- Role --}}
+                {{-- Role --}}
+                <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>Роль (на английском) <span style="color:red;">*</span></label>
                         <input
                             type="text"
                             class="form-control form-control-user @error('name') is-invalid @enderror"
-                            id="exampleName"
+                            id="roleName"
                             placeholder="Укажите роль (пример: ExampleRole)..."
                             name="name"
                             value="{{ old('name') }}">
@@ -41,9 +41,28 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
+                </div>
 
+                {{-- Label --}}
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>Должность <span style="color:red;">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control form-control-user @error('label') is-invalid @enderror"
+                            id="roleLabel"
+                            placeholder="Укажите должность..."
+                            name="label"
+                            value="{{ old('label') }}">
 
-                    {{-- Type --}}
+                        @error('label')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Type --}}
+                <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>Тип использования <span style="color:red;">*</span></label>
                         <select class="form-control form-control-user @error('guard_name') is-invalid @enderror" name="guard_name">
@@ -52,10 +71,9 @@
                             <option value="api" disabled>Для API</option>
                         </select>
                         @error('guard_name')
-                            <span class="text-danger">{{$message}}</span>
+                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
                 </div>
 
                 {{-- Save Button --}}

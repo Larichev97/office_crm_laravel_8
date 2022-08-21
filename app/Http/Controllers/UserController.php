@@ -66,7 +66,8 @@ class UserController extends Controller
             'first_name'    => 'required',
             'last_name'     => 'required',
             'email'         => 'required|unique:users,email',
-            'mobile_number' => 'required|numeric|digits:13',
+            //'mobile_number' => 'required|digits:13',
+            'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13',
             'role_id'       =>  'required|exists:roles,id',
             'status'       =>  'required|numeric|in:0,1',
         ]);
@@ -82,7 +83,8 @@ class UserController extends Controller
                 'mobile_number' => $request->mobile_number,
                 'role_id'       => $request->role_id,
                 'status'        => $request->status,
-                'password'      => Hash::make($request->first_name.'@'.$request->mobile_number)
+                //'password'      => Hash::make($request->first_name.'@'.$request->mobile_number) // Было
+                'password'      => Hash::make(12345678) // custom pass : 12345678
             ]);
 
             // Delete Any Existing Role
@@ -93,7 +95,7 @@ class UserController extends Controller
 
             // Commit And Redirected To Listing
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Created Successfully.');
+            return redirect()->route('users.index')->with('success','Сотрудник успешно добавлен.');
 
         } catch (\Throwable $th) {
             // Rollback and return with Error
@@ -133,7 +135,7 @@ class UserController extends Controller
 
             // Commit And Redirect on index with Success Message
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Status Updated Successfully!');
+            return redirect()->route('users.index')->with('success','Статус сотрудника успешно обновлен!');
         } catch (\Throwable $th) {
 
             // Rollback & Return Error Message
@@ -171,7 +173,7 @@ class UserController extends Controller
             'first_name'    => 'required',
             'last_name'     => 'required',
             'email'         => 'required|unique:users,email,'.$user->id.',id',
-            'mobile_number' => 'required|numeric|digits:13',
+            'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13',
             'role_id'       =>  'required|exists:roles,id',
             'status'       =>  'required|numeric|in:0,1',
         ]);
@@ -197,7 +199,7 @@ class UserController extends Controller
 
             // Commit And Redirected To Listing
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
+            return redirect()->route('users.index')->with('success','Данные сотрудника успешно обновлены.');
 
         } catch (\Throwable $th) {
             // Rollback and return with Error
@@ -220,7 +222,7 @@ class UserController extends Controller
             User::whereId($user->id)->delete();
 
             DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
+            return redirect()->route('users.index')->with('success', 'Сотрудник успешно удален!.');
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -246,7 +248,7 @@ class UserController extends Controller
     {
         Excel::import(new UsersImport, $request->file);
 
-        return redirect()->route('users.index')->with('success', 'User Imported Successfully');
+        return redirect()->route('users.index')->with('success', 'Сотрудники успешно импортированы!');
     }
 
     /**

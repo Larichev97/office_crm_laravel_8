@@ -28,7 +28,8 @@
                     <thead>
                         <tr>
                             <th width="40%">Роль</th>
-                            <th width="40%">Тип использования</th>
+                            <th width="40%">Должность</th>
+                            <th width="20%">Тип использования</th>
                             <th width="20%">Действие</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                        @foreach ($roles as $role)
                            <tr>
                                <td>{{$role->name}}</td>
+                               <td>{{$role->label}}</td>
                                <td>{{$role->guard_name}}</td>
                                <td style="display: flex">
                                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-primary m-2">
