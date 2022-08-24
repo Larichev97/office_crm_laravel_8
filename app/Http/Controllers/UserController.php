@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Exports\UsersExport;
-use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -230,33 +228,33 @@ class UserController extends Controller
         }
     }
 
-    /**
-     *  Import Users
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function importUsers()
-    {
-        return view('users.import');
-    }
+//    /**
+//     *  Import Users
+//     *
+//     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+//     */
+//    public function importUsers()
+//    {
+//        return view('users.import');
+//    }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function uploadUsers(Request $request)
-    {
-        Excel::import(new UsersImport, $request->file);
+//    /**
+//     * @param Request $request
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function uploadUsers(Request $request)
+//    {
+//        Excel::import(new UsersImport, $request->file);
+//
+//        return redirect()->route('users.index')->with('success', 'Сотрудники успешно импортированы!');
+//    }
 
-        return redirect()->route('users.index')->with('success', 'Сотрудники успешно импортированы!');
-    }
-
-    /**
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function export()
-    {
-        return Excel::download(new UsersExport, 'users.xlsx');
-    }
+//    /**
+//     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+//     */
+//    public function export()
+//    {
+//        return Excel::download(new UsersExport, 'users.xlsx');
+//    }
 
 }

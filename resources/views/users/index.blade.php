@@ -17,16 +17,18 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                @hasrole('Admin')
+                @hasanyrole('Admin|Director|Teamleader')
                     <div class="col-md-12">
-                        <a href="{{ route('users.export') }}" class="btn btn-sm btn-success float-right">
-                            <i class="fa fa-file"></i> Экспорт в Excel
-                        </a>
-                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary float-right mr-2">
-                            <i class="fas fa-plus"></i> Добавить сотрудника
-                        </a>
+{{--                        <a href="{{ route('users.export') }}" class="btn btn-sm btn-success float-right">--}}
+{{--                            <i class="fa fa-file"></i> Экспорт в Excel--}}
+{{--                        </a>--}}
+                        @can('user-create')
+                            <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary float-right mr-2">
+                                <i class="fas fa-plus"></i> Добавить сотрудника
+                            </a>
+                        @endcan
                     </div>
-                @endhasrole
+                @endhasanyrole
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -56,24 +58,32 @@
                                         @endif
                                     </td>
                                     <td style="display: flex">
-                                        @if ($user->status == 0)
-                                            <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 1]) }}"
-                                                class="btn btn-success m-2">
-                                                <i class="fa fa-check"></i>
+                                        @hasanyrole('Admin|Director')
+                                            @if ($user->status == 0)
+                                                <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 1]) }}"
+                                                    class="btn btn-success m-2">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            @elseif ($user->status == 1)
+                                                <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 0]) }}"
+                                                    class="btn btn-danger m-2">
+                                                    <i class="fa fa-ban"></i>
+                                                </a>
+                                            @endif
+                                        @endhasanyrole
+
+                                        @can('user-edit')
+                                            <a href="{{ route('users.edit', ['user' => $user->id]) }}"
+                                                class="btn btn-primary m-2">
+                                                <i class="fa fa-pen"></i>
                                             </a>
-                                        @elseif ($user->status == 1)
-                                            <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 0]) }}"
-                                                class="btn btn-danger m-2">
-                                                <i class="fa fa-ban"></i>
+                                        @endcan
+
+                                        @can('user-delete')
+                                            <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                                <i class="fas fa-trash"></i>
                                             </a>
-                                        @endif
-                                        <a href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                            class="btn btn-primary m-2">
-                                            <i class="fa fa-pen"></i>
-                                        </a>
-                                        <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

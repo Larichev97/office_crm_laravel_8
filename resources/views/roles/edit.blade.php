@@ -47,7 +47,7 @@
                 {{-- Label --}}
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <label>Должность <span style="color:red;">*</span></label>
+                        <label>Роль (на английском) <span style="color:red;">*</span></label>
                         <input
                             type="text"
                             class="form-control form-control-user @error('label') is-invalid @enderror"
@@ -62,14 +62,14 @@
                     </div>
                 </div>
 
-                {{--  Guard Name --}}
+                {{-- Guard name --}}
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>Тип использования <span style="color:red;">*</span></label>
                         <select class="form-control form-control-user @error('guard_name') is-invalid @enderror" name="guard_name">
                             <option selected disabled>Укажите тип использования...</option>
-                            <option value="web" {{old('guard_name') ? ((old('guard_name') == 'web') ? 'selected' : '') : (($role->guard_name == 'web') ? 'selected' : '')}}>Для WEB</option>
-                            <option value="api" {{old('guard_name') ? ((old('guard_name') == 'api') ? 'selected' : '') : (($role->guard_name == 'api') ? 'selected' : '')}}>Для API</option>
+                            <option value="web" selected>Для WEB</option>
+                            <option value="api" disabled>Для API</option>
                         </select>
                         @error('guard_name')
                         <span class="text-danger">{{$message}}</span>

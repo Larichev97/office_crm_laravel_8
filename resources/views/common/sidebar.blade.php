@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fa fa-money"></i>
         </div>
@@ -16,6 +16,38 @@
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fa fa-home"></i>
             <span>Главная</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Клиенты
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDownLeads"
+           aria-expanded="true" aria-controls="taTpDropDownLeads">
+            <i class="fa fa-list-ul"></i>
+            <span>Управление клиентами</span>
+        </a>
+        <div id="taTpDropDownLeads" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                @can('client-list')
+                    <a class="collapse-item" href="{{ route('clients.index') }}">Все клиенты</a>
+                @endcan
+
+                @can('client-create')
+                    <a class="collapse-item" href="{{ route('clients.create') }}">Добавить клиента</a>
+                @endcan
+
+                @can('client-import')
+                    <a class="collapse-item" href="{{ route('clients.import') }}">Импортировать лиды</a>
+                @endcan
+            </div>
+        </div>
     </li>
 
     <!-- Divider -->
@@ -47,35 +79,10 @@
     </li>
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
-
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Лиды
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDownLeads"
-           aria-expanded="true" aria-controls="taTpDropDownLeads">
-            <i class="fas fa-user-alt"></i>
-            <span>Управление лидами</span>
-        </a>
-        <div id="taTpDropDownLeads" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                @hasrole('Admin')
-                    <a class="collapse-item" href="{{ route('users.import') }}">Импортировать лиды</a>
-                @endhasrole
-            </div>
-        </div>
-    </li>
-
-    <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
 
-    @hasrole('Admin')
+    @hasanyrole('Admin|Director')
     <!-- Heading -->
     <div class="sidebar-heading">
         Настройки
@@ -85,20 +92,25 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fa fa-cog"></i>
             <span>Управление</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('roles.index') }}">Роли</a>
-                <a class="collapse-item" href="{{ route('permissions.index') }}">Доступы</a>
+                @can('role-list')
+                    <a class="collapse-item" href="{{ route('roles.index') }}">Роли</a>
+                @endcan
+
+                @can('permission-list')
+                    <a class="collapse-item" href="{{ route('permissions.index') }}">Доступы</a>
+                @endcan
             </div>
         </div>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-    @endhasrole
+    @endhasanyrole
 
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">

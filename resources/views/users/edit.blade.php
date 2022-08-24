@@ -114,8 +114,8 @@
                         <label>Статус <span style="color:red;">*</span></label>
                         <select class="form-control form-control-user @error('status') is-invalid @enderror" name="status">
                             <option selected disabled>Выберите статус...</option>
-                            <option value="1" {{old('role_id') ? ((old('role_id') == 1) ? 'selected' : '') : (($user->status == 1) ? 'selected' : '')}}>Активный</option>
-                            <option value="0" {{old('role_id') ? ((old('role_id') == 0) ? 'selected' : '') : (($user->status == 0) ? 'selected' : '')}}>Отключен</option>
+                            <option value="1" {{old('status') ? ((old('status') == 1) ? 'selected' : '') : (($user->status == 1) ? 'selected' : '')}}>Активный</option>
+                            <option value="0" {{old('status') ? ((old('status') == 0) ? 'selected' : '') : (($user->status == 0) ? 'selected' : '')}}>Отключен</option>
                         </select>
                         @error('status')
                             <span class="text-danger">{{$message}}</span>
