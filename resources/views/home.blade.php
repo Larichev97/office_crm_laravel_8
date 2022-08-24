@@ -18,6 +18,17 @@
         </div>
     </div>
 
+    <!-- Charts JS block START -->
+
+    <div class="row" style="margin-top: 30px; margin-bottom: 50px;">
+        <div class="col-lg-6">
+            <canvas id="clientStatusChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+
+    <!-- Charts JS block  END  -->
+
     <!-- Content Row -->
     <div class="row">
 
@@ -108,4 +119,53 @@
 
 
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{asset('admin/vendor/chart.js/Chart.js')}}"></script>
+    <script>
+        let client_status_chart_id = $('#clientStatusChart');
+        let data_chart_clients = {
+            labels: [
+                'Новые',
+                'В работе',
+                'Обработаны',
+                'Не обработаны'
+            ],
+            datasets: [{
+                label: 'Клиенты',
+                data: [1452, 400, 677, 111], // вернуть нужный массив с бэка !!!!
+                backgroundColor: [
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(72,178,63)',
+                    'rgb(238,63,78)'
+                ],
+                hoverOffset: 4
+            }],
+        };
+
+        const clientsStatusChart = new Chart(client_status_chart_id, {
+            //type: 'pie',
+            //type: 'line',
+            type: 'bar',
+            data: data_chart_clients,
+            options: {
+                title: {
+                    display: true,
+                    text: 'График статусов клиентов',
+                },
+
+                responsive: true,
+                maintainAspectRatio: false,
+                // scales: {
+                //     yAxes: [{
+                //         ticks: {
+                //             beginAtZero:true
+                //         }
+                //     }]
+                // }
+            }
+        });
+    </script>
 @endsection
