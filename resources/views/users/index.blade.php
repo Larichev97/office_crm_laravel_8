@@ -1,26 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Users List')
+@section('title', 'Все сотрудники')
 
 @section('content')
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Users</h1>
-            <div class="row">
-                <div class="col-md-6">
-                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus"></i> Add New
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <a href="{{ route('users.export') }}" class="btn btn-sm btn-success">
-                        <i class="fas fa-check"></i> Export To Excel
-                    </a>
-                </div>
-                
-            </div>
+        <div class="d-sm-flex align-items-center mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Все сотрудники</h1>
 
         </div>
 
@@ -30,20 +17,30 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
-
+                @hasanyrole('Admin|Director|Teamleader')
+                    <div class="col-md-12">
+{{--                        <a href="{{ route('users.export') }}" class="btn btn-sm btn-success float-right">--}}
+{{--                            <i class="fa fa-file"></i> Экспорт в Excel--}}
+{{--                        </a>--}}
+                        @can('user-create')
+                            <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary float-right mr-2">
+                                <i class="fas fa-plus"></i> Добавить сотрудника
+                            </a>
+                        @endcan
+                    </div>
+                @endhasanyrole
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th width="20%">Name</th>
-                                <th width="25%">Email</th>
-                                <th width="15%">Mobile</th>
-                                <th width="15%">Role</th>
-                                <th width="15%">Status</th>
-                                <th width="10%">Action</th>
+                                <th width="20%">ФИО</th>
+                                <th width="25%">Почта</th>
+                                <th width="15%">Мобильный номер</th>
+                                <th width="15%">Должность</th>
+                                <th width="15%">Статус</th>
+                                <th width="10%">Действие</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,33 +49,41 @@
                                     <td>{{ $user->full_name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->mobile_number }}</td>
-                                    <td>{{ $user->roles ? $user->roles->pluck('name')->first() : 'N/A' }}</td>
+                                    <td>{{ $user->roles ? $user->roles->pluck('label')->first() : 'Без должности' }}</td>
                                     <td>
                                         @if ($user->status == 0)
-                                            <span class="badge badge-danger">Inactive</span>
+                                            <span class="badge badge-danger">Отключен</span>
                                         @elseif ($user->status == 1)
-                                            <span class="badge badge-success">Active</span>
+                                            <span class="badge badge-success">Активный</span>
                                         @endif
                                     </td>
                                     <td style="display: flex">
-                                        @if ($user->status == 0)
-                                            <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 1]) }}"
-                                                class="btn btn-success m-2">
-                                                <i class="fa fa-check"></i>
+                                        @hasanyrole('Admin|Director')
+                                            @if ($user->status == 0)
+                                                <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 1]) }}"
+                                                    class="btn btn-success m-2">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            @elseif ($user->status == 1)
+                                                <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 0]) }}"
+                                                    class="btn btn-danger m-2">
+                                                    <i class="fa fa-ban"></i>
+                                                </a>
+                                            @endif
+                                        @endhasanyrole
+
+                                        @can('user-edit')
+                                            <a href="{{ route('users.edit', ['user' => $user->id]) }}"
+                                                class="btn btn-primary m-2">
+                                                <i class="fa fa-pen"></i>
                                             </a>
-                                        @elseif ($user->status == 1)
-                                            <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 0]) }}"
-                                                class="btn btn-danger m-2">
-                                                <i class="fa fa-ban"></i>
+                                        @endcan
+
+                                        @can('user-delete')
+                                            <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                                <i class="fas fa-trash"></i>
                                             </a>
-                                        @endif
-                                        <a href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                            class="btn btn-primary m-2">
-                                            <i class="fa fa-pen"></i>
-                                        </a>
-                                        <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
@@ -97,5 +102,5 @@
 @endsection
 
 @section('scripts')
-    
+
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,7 @@ Route::resource('roles', App\Http\Controllers\RolesController::class);
 // Permissions
 Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
-// Users 
+// Users
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('/create', [UserController::class, 'create'])->name('create');
@@ -47,11 +48,26 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
 
-    
-    Route::get('/import-users', [UserController::class, 'importUsers'])->name('import');
-    Route::post('/upload-users', [UserController::class, 'uploadUsers'])->name('upload');
 
-    Route::get('export/', [UserController::class, 'export'])->name('export');
+    //Route::get('/import-users', [UserController::class, 'importUsers'])->name('import');
+    //Route::post('/upload-users', [UserController::class, 'uploadUsers'])->name('upload');
 
+    //Route::get('export/', [UserController::class, 'export'])->name('export');
+
+});
+
+// Clients
+Route::middleware('auth')->prefix('clients')->name('clients.')->group(function(){
+    Route::get('/', [ClientController::class, 'index'])->name('index');
+    Route::get('/create', [ClientController::class, 'create'])->name('create');
+    Route::post('/store', [ClientController::class, 'store'])->name('store');
+    Route::get('/edit/{client}', [ClientController::class, 'edit'])->name('edit');
+    Route::put('/update/{client}', [ClientController::class, 'update'])->name('update');
+    Route::delete('/delete/{client}', [ClientController::class, 'delete'])->name('destroy');
+
+    Route::get('/import-clients', [ClientController::class, 'importClients'])->name('import');
+    Route::post('/upload-clients', [ClientController::class, 'uploadClients'])->name('upload');
+
+    Route::get('export/', [ClientController::class, 'exportClients'])->name('export');
 });
 

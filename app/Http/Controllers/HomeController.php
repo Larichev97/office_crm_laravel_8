@@ -28,19 +28,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$user = User::findOrFail(auth()->user()->id);
-
         return view('home');
-//        return view('home')->with([
-//            'user'  => $user
-//        ]);
     }
 
     /**
-     * User Profile
-     * @param Nill
-     * @return View Profile
-     * @author Shani Singh
+     *  User Profile
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function getProfile()
     {
@@ -48,10 +42,10 @@ class HomeController extends Controller
     }
 
     /**
-     * Update Profile
-     * @param $profileData
-     * @return Boolean With Success Message
-     * @author Shani Singh
+     *  Update Profile
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updateProfile(Request $request)
     {
@@ -59,7 +53,8 @@ class HomeController extends Controller
         $request->validate([
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'mobile_number' => 'required|numeric|digits:10',
+            //'mobile_number' => 'required|digits:13',
+            'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13',
         ]);
 
         try {
@@ -76,7 +71,7 @@ class HomeController extends Controller
             DB::commit();
 
             #Return To Profile page with success
-            return back()->with('success', 'Profile Updated Successfully.');
+            return back()->with('success', 'Данные профиля успешно изменены.');
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -85,10 +80,10 @@ class HomeController extends Controller
     }
 
     /**
-     * Change Password
-     * @param Old Password, New Password, Confirm New Password
-     * @return Boolean With Success Message
-     * @author Shani Singh
+     *  Change Password
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function changePassword(Request $request)
     {
@@ -108,7 +103,7 @@ class HomeController extends Controller
             DB::commit();
 
             #Return To Profile page with success
-            return back()->with('success', 'Password Changed Successfully.');
+            return back()->with('success', 'Пароль успешно изменен.');
 
         } catch (\Throwable $th) {
             DB::rollBack();
