@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -28,7 +29,40 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+//        $queryClients = DB::table('clients')->get();
+//
+//        $client_count_status = [];
+//
+//        if (!empty($queryClients)) {
+//            foreach ($queryClients as $client) {
+//                $client_count_status[$client->status_id][] = $client->id;
+//            }
+//        }
+
+        $client_count_data = [];
+
+//        if (!empty($client_count_status)) {
+//            foreach ($client_count_status as $key => $clients) {
+//                $client_count_data[(int)$key] = \count($clients);
+//            }
+//        }
+
+        // TEST
+        $record = Client::select(DB::raw("COUNT(*) as status_count"))
+            ->groupBy('status_id')
+            ->orderBy('status_id')
+            ->get();
+
+        foreach ($record as $row) {
+            $client_count_data['data'][] = (int) $row->status_count;
+        }
+
+        $client_count_data['total_count'] = DB::table('clients')->get()->count();
+
+        return view('home')->with([
+            //'client_count_data' => $client_count_data,
+            'client_count_data' => \json_encode($client_count_data),
+        ]);
     }
 
     /**

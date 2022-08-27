@@ -59,9 +59,8 @@ class ClientController extends Controller
     {
         // Validations
         $request->validate([
-            'first_name'    => 'required|string|max:255',
-            'last_name'     => 'required|string|max:255',
-            'surname'       => 'required|string|max:255',
+            'full_name'    => 'required|string|max:255',
+            'address'     => 'required|string|max:255',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13',
             'cash_before'   =>  'regex:/^\d+(\.\d{1,2})?$/',
             'cash_after'    =>  'regex:/^\d+(\.\d{1,2})?$/',
@@ -75,9 +74,8 @@ class ClientController extends Controller
 
             // Store Data
             $client = Client::create([
-                'first_name'    => $request->first_name,
-                'last_name'     => $request->last_name,
-                'surname'       => $request->surname,
+                'full_name'    => $request->full_name,
+                'address'     => $request->address,
                 'mobile_number' => $request->mobile_number,
                 'cash_before'   => $request->cash_before,
                 'cash_after'    => $request->cash_after,
@@ -121,9 +119,9 @@ class ClientController extends Controller
     {
         // Validations
         $request->validate([
-            'first_name'    => 'required|string|max:255',
-            'last_name'     => 'required|string|max:255',
-            'surname'       => 'required|string|max:255',
+            //'full_name'    => 'required|string|max:255',
+            'full_name'    => 'required|text|max:255',
+            'address'     => 'required|string|max:255',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13',
             'cash_before'   =>  'regex:/^\d+(\.\d{1,2})?$/',
             'cash_after'    =>  'regex:/^\d+(\.\d{1,2})?$/',
@@ -137,9 +135,8 @@ class ClientController extends Controller
 
             // Store Data
             $client_updated = Client::whereId($client->id)->update([
-                'first_name'    => $request->first_name,
-                'last_name'     => $request->last_name,
-                'surname'       => $request->surname,
+                'full_name'    => $request->full_name,
+                'address'     => $request->address,
                 'mobile_number' => $request->mobile_number,
                 'cash_before'   => $request->cash_before,
                 'cash_after'    => $request->cash_after,

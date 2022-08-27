@@ -124,22 +124,23 @@
 @section('scripts')
     <script src="{{asset('admin/vendor/chart.js/Chart.js')}}"></script>
     <script>
+        let cData = JSON.parse(`<?php echo $client_count_data; ?>`);
         let client_status_chart_id = $('#clientStatusChart');
         let data_chart_clients = {
             labels: [
                 'Новые',
                 'В работе',
                 'Обработаны',
-                'Не обработаны'
+                'Не обработаны',
             ],
             datasets: [{
                 label: 'Клиенты',
-                data: [1452, 400, 677, 111], // вернуть нужный массив с бэка !!!!
+                data: cData.data,
                 backgroundColor: [
                     'rgb(54, 162, 235)',
                     'rgb(255, 205, 86)',
                     'rgb(72,178,63)',
-                    'rgb(238,63,78)'
+                    'rgb(238,63,78)',
                 ],
                 hoverOffset: 4
             }],
@@ -149,6 +150,9 @@
             //type: 'pie',
             //type: 'line',
             type: 'bar',
+            //type: 'polarArea',
+            //type: 'doughnut',
+            //type: 'radar',
             data: data_chart_clients,
             options: {
                 title: {
@@ -158,13 +162,14 @@
 
                 responsive: true,
                 maintainAspectRatio: false,
-                // scales: {
-                //     yAxes: [{
-                //         ticks: {
-                //             beginAtZero:true
-                //         }
-                //     }]
-                // }
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            max:cData.total_count
+                        }
+                    }]
+                }
             }
         });
     </script>

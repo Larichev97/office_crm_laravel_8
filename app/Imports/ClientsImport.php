@@ -16,12 +16,12 @@ class ClientsImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         $client = new Client([
-            "first_name" => $row['first_name'],
-            "last_name" => $row['last_name'],
-            "surname" => $row['surname'],
+            "full_name" => $row['full_name'],
+            "address" => $row['address'],
             "mobile_number" => $row['mobile_number'],
-            "status_id" => 1, // New
+            "status_id" => 1, // New client
             "agent_id" => null,
+            "comment" => null,
         ]);
 
         return $client;

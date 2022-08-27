@@ -38,13 +38,14 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th width="10%">№ клиента</th>
-                                <th width="20%">ФИО</th>
+                                <th width="5%">№ клиента</th>
+                                <th width="15%">ФИО</th>
+                                <th width="15%">Адрес</th>
                                 <th width="10%">Мобильный номер</th>
                                 <th width="5%">Доступные деньги</th>
                                 <th width="5%">Полученные деньги</th>
                                 <th width="10%">Статус</th>
-                                <th width="15%">Агент</th>
+                                <th width="10%">Агент</th>
                                 <th width="15%">Комментарий</th>
                                 <th width="10%">Действие</th>
                             </tr>
@@ -53,7 +54,8 @@
                             @foreach ($clients as $client)
                                 <tr>
                                     <td>{{ $client->id }}</td>
-                                    <td>{{ $client->getClientFullName() }}</td>
+                                    <td>{{ $client->full_name }}</td>
+                                    <td>{{ $client->address }}</td>
                                     <td>{{ $client->mobile_number }}</td>
                                     <td>{{ $client->cash_before }}</td>
                                     <td>{{ $client->cash_after }}</td>

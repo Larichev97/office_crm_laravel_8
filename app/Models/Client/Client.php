@@ -16,9 +16,8 @@ class Client extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name', // имя
-        'last_name', // фамилия
-        'surname', // отчество
+        'full_name', // ФИО
+        'address', // адрес
         'mobile_number',
         'status_id', // статус клиента
         'agent_id', // id закреплённого агента
@@ -44,7 +43,7 @@ class Client extends Model
      */
     public function getClientFullName()
     {
-        return "{$this->last_name} {$this->first_name} {$this->surname}";
+        return "{$this->full_name}";
     }
 
     /**
@@ -59,6 +58,7 @@ class Client extends Model
             1 => 'Новый',
             2 => 'В работе',
             3 => 'Обработан',
+            4 => 'Не обработан',
         ];
 
         return $statuses_arr[$status_id];

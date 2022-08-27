@@ -26,56 +26,38 @@
             @method('PUT')
 
             <div class="card-body">
-                {{-- First Name --}}
+                {{-- Full Name --}}
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <label>Имя <span style="color:red;">*</span></label>
+                        <label>ФИО <span style="color:red;">*</span></label>
                         <input
                             type="text"
-                            class="form-control form-control-user @error('first_name') is-invalid @enderror"
-                            id="clientFirstName"
-                            placeholder="Укажите имя..."
-                            name="first_name"
-                            value="{{ old('first_name') ?  old('first_name') : $client->first_name}}">
+                            class="form-control form-control-user @error('full_name') is-invalid @enderror"
+                            id="clientFullName"
+                            placeholder="Укажите ФИО..."
+                            name="full_name"
+                            value="{{ old('full_name') ?  old('full_name') : $client->full_name}}">
 
-                        @error('first_name')
+                        @error('full_name')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
                 </div>
 
-                {{-- Last Name --}}
+                {{-- Address --}}
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <label>Фамилия <span style="color:red;">*</span></label>
+                        <label>Адрес <span style="color:red;">*</span></label>
                         <input
                             type="text"
-                            class="form-control form-control-user @error('last_name') is-invalid @enderror"
-                            id="clientLastName"
+                            class="form-control form-control-user @error('address') is-invalid @enderror"
+                            id="clientAddress"
                             placeholder="Укажите фамилию..."
-                            name="last_name"
-                            value="{{ old('last_name') ? old('last_name') : $client->last_name }}">
+                            name="address"
+                            value="{{ old('address') ? old('address') : $client->address }}">
 
-                        @error('last_name')
+                        @error('address')
                             <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- Surname --}}
-                <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <label>Отчество <span style="color:red;">*</span></label>
-                        <input
-                            type="text"
-                            class="form-control form-control-user @error('surname') is-invalid @enderror"
-                            id="clientSurname"
-                            placeholder="Укажите отчество..."
-                            name="surname"
-                            value="{{ old('surname') ? old('surname') : $client->surname }}">
-
-                        @error('surname')
-                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
                 </div>
